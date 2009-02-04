@@ -4,8 +4,6 @@
 
 package gui;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;

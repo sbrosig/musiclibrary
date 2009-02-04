@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 11.0-b15 (Sun Microsystems Inc.)
+X-COMMENT: Main-Class will be added automatically by build
+Main-Class: gui.AppMain
+Class-Path: MusicLibrary-ejb.jar appframework-1.0.3.jar swing-worker-1
+ .1.jar 
+
