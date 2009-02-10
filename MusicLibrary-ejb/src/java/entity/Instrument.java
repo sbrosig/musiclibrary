@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import ancillary.Note;
@@ -13,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *
@@ -20,12 +20,36 @@ import javax.persistence.Id;
  */
 @Entity
 public class Instrument implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     protected String name;
+    protected String abbr;
+    protected Note transpose;
+    protected String family;
+    protected Integer orderIndex;
+
+    @Transient
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+    public static final String PROP_ORDERINDEX = "orderIndex";
     public static final String PROP_NAME = "name";
+    public static final String PROP_TRANSPOSE = "transpose";
+    public static final String PROP_FAMILY = "family";
+    public static final String PROP_ABBR = "abbr";
+
+    public Integer getOrderIndex() {
+        return orderIndex;
+    }
+
+    public void setOrderIndex(Integer orderIndex) {
+        Integer oldOrderIndex = this.orderIndex;
+        this.orderIndex = orderIndex;
+        propertyChangeSupport.firePropertyChange(PROP_ORDERINDEX, oldOrderIndex, orderIndex);
+    }
 
     /**
      * Get the value of the instrument name
@@ -46,8 +70,7 @@ public class Instrument implements Serializable {
         this.name = name;
         propertyChangeSupport.firePropertyChange(PROP_NAME, oldName, name);
     }
-    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
+    
     /**
      * Add PropertyChangeListener.
      *
@@ -57,12 +80,9 @@ public class Instrument implements Serializable {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-    protected String abbr;
-    public static final String PROP_ABBR = "abbr";
 
     /**
      * Get the value of abbr
@@ -83,22 +103,16 @@ public class Instrument implements Serializable {
         this.abbr = abbr;
         propertyChangeSupport.firePropertyChange(PROP_ABBR, oldAbbr, abbr);
     }
-    protected Note transpose;
-    public static final String PROP_TRANSPOSE = "transpose";
-
 
     public Note getTranspose() {
         return transpose;
     }
 
-   
-    public void setTransposeNote(Note transpose) {
+    public void setTranspose(Note transpose) {
         Note oldTranspose = this.transpose;
         this.transpose = transpose;
         propertyChangeSupport.firePropertyChange(PROP_TRANSPOSE, oldTranspose, transpose);
     }
-    protected String family;
-    public static final String PROP_FAMILY = "family";
 
     /**
      * Get the value of family
@@ -152,5 +166,4 @@ public class Instrument implements Serializable {
     public String toString() {
         return "entity.Instrument[id=" + id + "]";
     }
-
 }

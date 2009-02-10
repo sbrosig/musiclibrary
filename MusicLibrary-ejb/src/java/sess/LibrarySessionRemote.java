@@ -5,6 +5,8 @@
 
 package sess;
 
+import entity.Instrument;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -15,5 +17,9 @@ import javax.ejb.Remote;
 public interface LibrarySessionRemote {
 
     String testMethod(String parameter);
+
+    public List<Instrument> loadInstruments();
+
+    public void persist(java.lang.Object object);
     
 }
