@@ -6,15 +6,10 @@
 package sess;
 
 import entity.Instrument;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -31,16 +26,22 @@ public class LibrarySessionBean implements LibrarySessionRemote, LibrarySessionL
     }
 
     public List<Instrument> loadInstruments() {        
-        return (List<Instrument>) em.createQuery("select i from Instrument i").getResultList();
+        
+        List<Instrument> ili = (List<Instrument>)  em.createQuery("select i from Instrument i").getResultList();
+        
+        System.out.printf("instr list has %d elements\n", ili.size());
+        return ili;
 
-     
     }
 
-
-
-
     public void persist(Object object) {
-        em.persist(object);
+        if (object instanceof List) {
+            for (Object lo: (List) object) {
+                em.persist(lo);
+            }
+        } else  {
+            em.persist(object);
+        }
     }
 
 

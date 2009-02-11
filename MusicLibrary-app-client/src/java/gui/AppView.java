@@ -4,6 +4,7 @@
 
 package gui;
 
+import javax.swing.JComponent;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -16,6 +17,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import org.jdesktop.application.Application;
 
 /**
  * The application's main frame.
@@ -102,8 +104,12 @@ public class AppView extends FrameView {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
+        recordMenu = new javax.swing.JMenu();
+        addMenItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         testit = new javax.swing.JMenuItem();
+        instrMenuEitem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
         statusPanel = new javax.swing.JPanel();
@@ -122,7 +128,7 @@ public class AppView extends FrameView {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addGap(0, 245, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -137,6 +143,22 @@ public class AppView extends FrameView {
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
+
+        recordMenu.setText(resourceMap.getString("recordMenu.text")); // NOI18N
+        recordMenu.setEnabled(false);
+        recordMenu.setName("recordMenu"); // NOI18N
+
+        addMenItem.setAction(actionMap.get("addRecord")); // NOI18N
+        addMenItem.setText(resourceMap.getString("addMenItem.text")); // NOI18N
+        addMenItem.setName("addMenItem"); // NOI18N
+        recordMenu.add(addMenItem);
+
+        saveMenuItem.setAction(actionMap.get("save")); // NOI18N
+        saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
+        saveMenuItem.setName("saveMenuItem"); // NOI18N
+        recordMenu.add(saveMenuItem);
+
+        menuBar.add(recordMenu);
 
         toolsMenu.setText(resourceMap.getString("toolsMenu.text")); // NOI18N
         toolsMenu.setName("toolsMenu"); // NOI18N
@@ -155,6 +177,11 @@ public class AppView extends FrameView {
             }
         });
         toolsMenu.add(testit);
+
+        instrMenuEitem.setAction(actionMap.get("instruments")); // NOI18N
+        instrMenuEitem.setText(resourceMap.getString("instrMenuEitem.text")); // NOI18N
+        instrMenuEitem.setName("instrMenuEitem"); // NOI18N
+        toolsMenu.add(instrMenuEitem);
 
         menuBar.add(toolsMenu);
 
@@ -217,6 +244,21 @@ public class AppView extends FrameView {
         // TODO add your handling code here:
     }
 
+    @Override
+    public void setComponent(JComponent component) {
+        super.setComponent(component);
+        if (component instanceof CRUD) {
+            recordMenu.setEnabled(true);
+        } else {
+            recordMenu.setEnabled(false);
+        }
+    }
+
+    @Action
+    public void addRecord() {
+        crudDelegate.create();
+    }
+
     public void message(String mess) {
         statusMessageLabel.setText(mess);
     }
@@ -225,10 +267,21 @@ public class AppView extends FrameView {
         return new TestTask(getApplication());
     }//GEN-LAST:event_testitActionPerformed
 
+    @Action
+    public Task instruments() {
+        return new InstrumentTask(AppMain.getApplication());
+    }
+
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addMenItem;
+    private javax.swing.JMenuItem instrMenuEitem;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JMenu recordMenu;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
@@ -241,6 +294,34 @@ public class AppView extends FrameView {
     private final Icon idleIcon;
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
+    private CRUDPanel crudDelegate;
 
     private JDialog aboutBox;
+
+    private class InstrumentTask extends Task {
+        InstrumentTask(Application app) {
+            super(app);
+        }
+        @Override
+        protected Object doInBackground() throws Exception {
+             crudDelegate =new InstrumentPanel();
+             setComponent(crudDelegate);
+            return null;
+        }
+
+
+
+       @Override
+       protected void succeeded(Object result) {
+        this.message("Instruments loaded");
+
+        }
+
+    }
+
+    @Action
+    public void save() {
+        crudDelegate.update();
+    }
+
 }

@@ -391,12 +391,14 @@ exists or setup the property manually. For example like this:
         <mkdir dir="${build.classes.dir}/META-INF/lib"/>
         <copyfiles files="${reference.MusicLibrary-ejb.dist}" todir="${build.classes.dir}/META-INF/lib"/>
         <copyfiles files="${libs.swing-app-framework.classpath}" todir="${build.classes.dir}/META-INF/lib"/>
+        <copyfiles files="${libs.beans-binding.classpath}" todir="${build.classes.dir}/META-INF/lib"/>
     </target>
     <target depends="compile" if="dist.ear.dir" name="library-inclusion-in-manifest">
         <copyfiles files="${reference.MusicLibrary-ejb.dist}" manifestproperty="manifest.reference.MusicLibrary-ejb.dist" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.swing-app-framework.classpath}" manifestproperty="manifest.libs.swing-app-framework.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.beans-binding.classpath}" manifestproperty="manifest.libs.beans-binding.classpath" todir="${dist.ear.dir}"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.reference.MusicLibrary-ejb.dist} ${manifest.libs.swing-app-framework.classpath} "/>
+            <attribute name="Class-Path" value="${manifest.reference.MusicLibrary-ejb.dist} ${manifest.libs.swing-app-framework.classpath} ${manifest.libs.beans-binding.classpath} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">

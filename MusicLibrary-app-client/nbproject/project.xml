@@ -13,6 +13,7 @@
             </test-roots>
             <included-library>reference.MusicLibrary-ejb.dist</included-library>
             <included-library>libs.swing-app-framework.classpath</included-library>
+            <included-library>libs.beans-binding.classpath</included-library>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>

@@ -21,6 +21,14 @@ import javax.persistence.Transient;
 @Entity
 public class Instrument implements Serializable {
 
+    public Instrument() {
+        this.name = "name";
+        this.abbr = "abbr";
+        this.transpose = Note.C;
+        this.family = "fam";
+        this.orderIndex = 0;
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -164,6 +172,6 @@ public class Instrument implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Instrument[id=" + id + "]";
+        return "Instrument[id=" + id + "," + abbr + "]";
     }
 }
