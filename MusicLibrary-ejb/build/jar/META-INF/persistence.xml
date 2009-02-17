@@ -4,6 +4,7 @@
     <provider>oracle.toplink.essentials.PersistenceProvider</provider>
     <jta-data-source>muli-jndi</jta-data-source>
     <properties>
+      <property name="toplink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
